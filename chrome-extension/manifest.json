@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Tính điểm IUH",
+  "description": "Tiện ích giúp cho sinh viên IUH có thể Nhập mới hoặc Chỉnh sửa các cột điểm TK, GK, TH hoặc Cuối kì để giả định kết quả cuối kỳ",
+  "version": "5.0.0",
+  "action": {
+    "default_icon": "./logos/logo.png"
+  },
+  "background": {
+    "service_worker": "js/background.js"
+  },
+  "permissions": ["storage", "tabs"],
+  "content_scripts": [
+    {
+      "matches": ["https://sv.iuh.edu.vn/ket-qua-hoc-tap.html"],
+      "js": ["js/craw-data.js"]
+    }
+  ]
+}
