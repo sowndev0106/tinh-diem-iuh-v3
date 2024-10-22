@@ -6,40 +6,43 @@ export interface RowGrade {
   children?: RowGrade[];
   key?: string;
 }
-
+export type TypeGrade = undefined | null | number;
 // Define the structure of a subject
 export interface Subject {
-  rowIndex?: number | null;
-  index?: number | null;
-  idSubject?: number | null;
+  rowIndex?: TypeGrade;
+  index?: TypeGrade;
+  idSubject?: TypeGrade;
   name: string;
-  totalCredit: number;
-  creditPractical?: number | null;
-  creditTheory?: number | null;
-  midTerm?: number | null;
+  totalCredit?: TypeGrade;
+  creditPractical?: TypeGrade;
+  creditTheory?: TypeGrade;
+  midTerm?: TypeGrade;
   diligence: string;
-  theory1?: number | null;
-  theory2?: number | null;
-  theory3?: number | null;
-  theory4?: number | null;
-  theory5?: number | null;
-  theory6?: number | null;
-  theory7?: number | null;
-  theory8?: number | null;
-  theory9?: number | null;
-  practical1?: number | null;
-  practical2?: number | null;
-  practical3?: number | null;
-  practical4?: number | null;
-  practical5?: number | null;
-  endTerm?: number | null;
-  finalGrade10?: number | null;
-  finalGrade4?: number | null;
+  theory1?: TypeGrade;
+  theory2?: TypeGrade;
+  theory3?: TypeGrade;
+  theory4?: TypeGrade;
+  theory5?: TypeGrade;
+  theory6?: TypeGrade;
+  theory7?: TypeGrade;
+  theory8?: TypeGrade;
+  theory9?: TypeGrade;
+  practical1?: TypeGrade;
+  practical2?: TypeGrade;
+  practical3?: TypeGrade;
+  practical4?: TypeGrade;
+  practical5?: TypeGrade;
+  endTerm?: TypeGrade;
+  finalGrade10?: TypeGrade;
+  finalGrade4?: TypeGrade;
   finalGradeChar: string;
   level: string;
   description: string;
   disable: boolean;
 }
+export type KeySubjectGrade = {
+  [K in keyof Subject]: Subject[K] extends TypeGrade ? K : never;
+}[keyof Subject];
 
 // Define the structure of term overview
 export interface Overview {
@@ -56,7 +59,7 @@ export interface Overview {
 }
 
 // Define the structure of a term
-export interface Grade {
+export interface Term {
   startRowIndex?: number | null;
   endRowIndex?: number | null;
   term: string;
@@ -68,6 +71,6 @@ export interface Grade {
 }
 
 // Define the structure of grades which contains multiple terms
-export interface GradesData {
-  grades: Grade[];
+export interface TermData {
+  terms: Term[];
 }

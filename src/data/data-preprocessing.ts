@@ -1,10 +1,10 @@
-import { Grade, Overview, Subject } from "../interface";
+import { Term, Overview, Subject } from "../interface";
 
-export const dataPreprocessing = (data: Grade[]) => {
+export const dataPreprocessing = (data: Term[]) => {
   return data.map((term, index) => {
     const subjects: Subject[] = term.subjects.map((subject, index) => {
       const creditPractical = findPracticalCredit(subject);
-      const creditTheory = subject.totalCredit - creditPractical;
+      const creditTheory = (subject.totalCredit as number) - creditPractical;
       return {
         ...subject,
         creditPractical,
@@ -13,7 +13,7 @@ export const dataPreprocessing = (data: Grade[]) => {
     });
 
     term.subjects = subjects;
-
+    console.log({ dataProcess: term });
     return term;
   });
 };
@@ -54,10 +54,6 @@ const findPracticalCredit = (subject: Subject) => {
     ) {
       return 0;
     }
-    console.log({
-      theories,
-      practicals,
-    });
     const avgTheories =
       theories?.reduce((a: number, b: number) => a + b, 0) / theories.length;
     const avgPracticals =

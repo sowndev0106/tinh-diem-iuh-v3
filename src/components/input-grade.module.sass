@@ -1,4 +1,6 @@
 .inputGrade
+   width: 100%
+   align-items: center
    input
    & input[type=number]
       -moz-appearance: textfield
@@ -12,8 +14,18 @@
       margin: 0
 
    input
-      padding: 0 !important
       font-size: 12px
       border: none !important
       max-width: 20px
       align-content: center
+      padding: 5px
+
+.inputError
+   background-color: #ffcccc
+   border: 1px solid red
+   border-radius: 2px
+   input
+      padding: 4px
+
+.textCell
+   padding: 5px

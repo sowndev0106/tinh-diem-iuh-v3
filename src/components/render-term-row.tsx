@@ -1,25 +1,51 @@
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
-import { fixedGrade } from '../helper';
-import { Grade, Overview, Subject } from '../interface';
-import { InputBase } from '@mui/material';
+import { Term, KeySubjectGrade, Overview, Subject } from '../interface';
+import { InputBase, Tooltip } from '@mui/material';
+import TextCell from './TextCell';
 import InputGrade from './InputGrade';
+import { fixedGrade } from '../helper';
+import { useEffect, useState } from 'react';
+import { calcOverviewSubject, calculatorOverviewTerm } from '../helper/caculator';
 
 
-const RenderTermRow = ({ grade }: { grade: Grade }) => {
-    const renderRowSubject = ({ subject }: { subject: Subject }) => {
+const RenderTermRow = (props: { term: Term, onChange: (term: Term) => void }) => {
+    const [term, setTerm] = useState<Term>(props.term);
+    const { onChange } = props;
+    useEffect(() => {
+        setTerm(props.term);
+    }, [props.term]);
+
+    const updateTerm = (grade: number | null | undefined, key: KeySubjectGrade, indexSubject: number) => {
+        if (key == undefined) return;
+        let newTerm = { ...term };
+        newTerm.subjects[indexSubject][key] = grade ? grade : null;
+        newTerm.subjects[indexSubject] = calcOverviewSubject(newTerm.subjects[indexSubject]);
+        newTerm.overview = calculatorOverviewTerm(newTerm);
+        setTerm(newTerm);
+        onChange(newTerm);
+    }
+
+    const renderRowSubject = ({ subject, index }: { subject: Subject, index: number }) => {
         return (
             <TableRow hover>
                 <TableCell align='center'>
-                    <InputGrade defaultValue={subject?.index} inputType='Grade' />
+                    <TextCell>
+                        {subject?.index}
+                    </TextCell>
                 </TableCell>
 
                 <TableCell align='left'>
-                    {subject?.name}
+                    <TextCell>
+                        {subject?.name}
+                    </TextCell>
                 </TableCell>
 
                 <TableCell align='center'   >
-                    <InputGrade defaultValue={subject?.creditPractical} inputType='Grade' />
+                    <InputGrade
+                        value={subject?.creditPractical}
+                        inputType='Credit' max={subject.totalCredit}
+                        onChange={(grade) => updateTerm(grade, "creditPractical", index)} />
                 </TableCell>
 
                 <TableCell align='center'>
@@ -27,83 +53,141 @@ const RenderTermRow = ({ grade }: { grade: Grade }) => {
                 </TableCell>
 
                 <TableCell align='center'>
-                    <InputGrade defaultValue={subject?.midTerm} inputType='Grade' />
+                    <InputGrade
+                        value={subject?.midTerm}
+                        inputType='Grade'
+                        onChange={(grade) => updateTerm(grade, "midTerm", index)} />
                 </TableCell>
 
                 <TableCell align='center'>
-                    <InputGrade defaultValue={subject?.theory1} inputType='Grade' />
+                    <InputGrade
+                        value={subject?.theory1}
+                        inputType='Grade'
+                        onChange={(grade) => updateTerm(grade, "theory1", index)} />
                 </TableCell>
 
                 <TableCell align='center'>
-                    <InputGrade defaultValue={subject?.theory2} inputType='Grade' />
+                    <InputGrade
+                        value={subject?.theory2}
+                        inputType='Grade'
+                        onChange={(grade) => updateTerm(grade, "theory2", index)} />
                 </TableCell>
 
                 <TableCell align='center'>
-                    <InputGrade defaultValue={subject?.theory3} inputType='Grade' />
+                    <InputGrade
+                        value={subject?.theory3}
+                        inputType='Grade'
+                        onChange={(grade) => updateTerm(grade, "theory3", index)} />
                 </TableCell>
 
                 <TableCell align='center'>
-                    <InputGrade defaultValue={subject?.theory4} inputType='Grade' />
+                    <InputGrade
+                        value={subject?.theory4}
+                        inputType='Grade'
+                        onChange={(grade) => updateTerm(grade, "theory4", index)} />
                 </TableCell>
 
                 <TableCell align='center'>
-                    <InputGrade defaultValue={subject?.theory5} inputType='Grade' />
+                    <InputGrade
+                        value={subject?.theory5}
+                        inputType='Grade'
+                        onChange={(grade) => updateTerm(grade, "theory5", index)} />
                 </TableCell>
 
                 <TableCell align='center'>
-                    <InputGrade defaultValue={subject?.theory6} inputType='Grade' />
+                    <InputGrade
+                        value={subject?.theory6}
+                        inputType='Grade'
+                        onChange={(grade) => updateTerm(grade, "theory6", index)} />
                 </TableCell>
 
                 <TableCell align='center'>
-                    <InputGrade defaultValue={subject?.theory7} inputType='Grade' />
+                    <InputGrade
+                        value={subject?.theory7}
+                        inputType='Grade'
+                        onChange={(grade) => updateTerm(grade, "theory7", index)} />
                 </TableCell>
 
                 <TableCell align='center'>
-                    <InputGrade defaultValue={subject?.theory8} inputType='Grade' />
+                    <InputGrade
+                        value={subject?.theory8}
+                        inputType='Grade'
+                        onChange={(grade) => updateTerm(grade, "theory8", index)} />
                 </TableCell>
 
                 <TableCell align='center'>
-                    <InputGrade defaultValue={subject?.theory9} inputType='Grade' />
+                    <InputGrade
+                        value={subject?.theory9}
+                        inputType='Grade'
+                        onChange={(grade) => updateTerm(grade, "theory9", index)} />
                 </TableCell>
 
                 <TableCell align='center'>
-                    <InputGrade defaultValue={subject?.practical1} inputType='Grade' />
+                    <InputGrade
+                        value={subject?.practical1}
+                        inputType='Grade'
+                        onChange={(grade) => updateTerm(grade, "practical1", index)} />
                 </TableCell>
 
                 <TableCell align='center'>
-                    <InputGrade defaultValue={subject?.practical2} inputType='Grade' />
+                    <InputGrade
+                        value={subject?.practical2}
+                        inputType='Grade'
+                        onChange={(grade) => updateTerm(grade, "practical2", index)} />
                 </TableCell>
 
                 <TableCell align='center'>
-                    <InputGrade defaultValue={subject?.practical3} inputType='Grade' />
+
+                    <InputGrade
+                        value={subject?.practical3}
+                        inputType='Grade'
+                        onChange={(grade) => updateTerm(grade, "practical3", index)} />
                 </TableCell>
 
                 <TableCell align='center'>
-                    <InputGrade defaultValue={subject?.practical4} inputType='Grade' />
+                    <InputGrade
+                        value={subject?.practical4}
+                        inputType='Grade'
+                        onChange={(grade) => updateTerm(grade, "practical4", index)} />
                 </TableCell>
 
                 <TableCell align='center'>
-                    <InputGrade defaultValue={subject?.practical5} inputType='Grade' />
+                    <InputGrade
+                        value={subject?.practical5}
+                        inputType='Grade'
+                        onChange={(grade) => updateTerm(grade, "practical5", index)} />
                 </TableCell>
 
                 <TableCell align='center'>
-                    <InputGrade defaultValue={subject?.endTerm} inputType='Grade' />
+                    <InputGrade
+                        value={subject?.endTerm}
+                        inputType='Grade'
+                        onChange={(grade) => updateTerm(grade, "endTerm", index)} />
                 </TableCell>
 
                 <TableCell align='center'>
-                    <InputGrade defaultValue={subject?.finalGrade10} inputType='Grade' />
+                    <TextCell>
+                        {subject?.finalGrade10}
+                    </TextCell>
                 </TableCell>
 
                 <TableCell align='center'>
-                    <InputGrade defaultValue={subject?.finalGrade4} inputType='Grade' />
+                    <TextCell>
+                        {subject?.finalGrade4}
+                    </TextCell>
                 </TableCell>
 
                 <TableCell align='center'>
-                    <InputGrade defaultValue={subject?.finalGradeChar} inputType='Grade' />
+                    <TextCell>
+                        {subject?.finalGradeChar}
+                    </TextCell>
+
                 </TableCell>
 
                 <TableCell align='center'>
-                    <InputGrade defaultValue={subject?.description} inputType='Grade' />
+                    <TextCell>
+                        {subject?.description}
+                    </TextCell>
                 </TableCell>
 
             </TableRow >
@@ -116,9 +200,12 @@ const RenderTermRow = ({ grade }: { grade: Grade }) => {
                 <TableRow key={title} hover style={{ backgroundColor: "#f5f5f5", margin: "20px" }}>
                     <TableCell />
                     <TableCell colSpan={25} align="left" >
-                        <strong style={{ color: "#578ebe" }}>{title}</strong>
+                        <TextCell>
+                            <div style={{ color: "#1da1f2", fontWeight: "bold" }}>
+                                {title}
+                            </div>
+                        </TextCell>
                     </TableCell>
-
                 </TableRow>
             </>
         )
@@ -130,46 +217,66 @@ const RenderTermRow = ({ grade }: { grade: Grade }) => {
                 <TableRow hover>
                     <TableCell rowSpan={5} />
                     <TableCell colSpan={2} align="left">
-                        Điểm trung bình học kỳ hệ 10: <strong>{fixedGrade(overview?.avg10, 1)}0</strong>
+                        <TextCell>
+                            Điểm trung bình học kỳ hệ 10: <strong>{fixedGrade(overview?.avg10, 1)}</strong>
+                        </TextCell>
                     </TableCell>
-                    <TableCell colSpan={2} align="left">
-                        Điểm trung bình học kỳ hệ 4: <strong> {fixedGrade(overview?.avg4)}</strong>
-                    </TableCell>
-                </TableRow>
-
-                <TableRow hover>
-                    <TableCell colSpan={2} align="left">
-                        Điểm trung bình tích lũy: <strong>{fixedGrade(overview?.avgAccumulator10, 1)}0</strong>
-                    </TableCell>
-                    <TableCell colSpan={2} align="left">
-                        Điểm trung bình tích lũy (hệ 4): <strong> {fixedGrade(overview?.avgAccumulator4)}</strong>
+                    <TableCell colSpan={16} align="left">
+                        <TextCell>
+                            Điểm trung bình học kỳ hệ 4: <strong>{fixedGrade(overview?.avg4)}</strong>
+                        </TextCell>
                     </TableCell>
                 </TableRow>
 
                 <TableRow hover>
                     <TableCell colSpan={2} align="left">
-                        Tổng số tín chỉ đã đăng ký: <strong>{overview?.totalCreditRegister ? overview?.totalCreditRegister : ""} </strong>
+                        <TextCell>
+                            Điểm trung bình tích lũy: <strong>{fixedGrade(overview?.avgAccumulator10, 1)}</strong>
+                        </TextCell>
                     </TableCell>
-                    <TableCell colSpan={2} align="left">
-                        Tổng số tín chỉ tích lũy: <strong> {overview?.totalCreditAccumulator}</strong>
-                    </TableCell>
-                </TableRow>
-
-                <TableRow hover>
-                    <TableCell colSpan={2} align="left">
-                        Tổng số tín chỉ đạt: <strong>{overview?.totalCreditPass}</strong>
-                    </TableCell>
-                    <TableCell colSpan={2} align="left">
-                        Tổng số tín chỉ nợ tính đến hiện tại: <strong> {overview?.totalCreditFail}</strong>
+                    <TableCell colSpan={16} align="left">
+                        <TextCell>
+                            Điểm trung bình tích lũy (hệ 4): <strong> {fixedGrade(overview?.avgAccumulator4)}</strong>
+                        </TextCell>
                     </TableCell>
                 </TableRow>
 
                 <TableRow hover>
                     <TableCell colSpan={2} align="left">
-                        Xếp loại học lực tích lũy: <strong>{overview?.levelAccumulator}</strong>
+                        <TextCell>
+                            Tổng số tín chỉ đã đăng ký: <strong>{overview?.totalCreditRegister ? overview?.totalCreditRegister : ""} </strong>
+                        </TextCell>
                     </TableCell>
+                    <TableCell colSpan={16} align="left">
+                        <TextCell>
+                            Tổng số tín chỉ tích lũy: <strong> {overview?.totalCreditAccumulator}</strong>
+                        </TextCell>
+                    </TableCell>
+                </TableRow>
+
+                <TableRow hover>
                     <TableCell colSpan={2} align="left">
-                        Xếp loại học lực học kỳ: <strong> {overview?.levelTerm}</strong>
+                        <TextCell>
+                            Tổng số tín chỉ đạt: <strong>{overview?.totalCreditPass}</strong>
+                        </TextCell>
+                    </TableCell>
+                    <TableCell colSpan={16} align="left">
+                        <TextCell>
+                            Tổng số tín chỉ nợ tính đến hiện tại: <strong>{overview?.totalCreditFail}</strong>
+                        </TextCell>
+                    </TableCell>
+                </TableRow>
+
+                <TableRow hover>
+                    <TableCell colSpan={2} align="left">
+                        <TextCell>
+                            Xếp loại học lực tích lũy: <strong>{overview?.levelAccumulator}</strong>
+                        </TextCell>
+                    </TableCell>
+                    <TableCell colSpan={16} align="left">
+                        <TextCell>
+                            Xếp loại học lực học kỳ: <strong>{overview?.levelTerm}</strong>
+                        </TextCell>
                     </TableCell>
                 </TableRow>
 
@@ -179,13 +286,13 @@ const RenderTermRow = ({ grade }: { grade: Grade }) => {
 
     return (
         <>
-            <RenderRowTermLabel title={grade.term} />
+            <RenderRowTermLabel title={term.term} />
             {
-                grade.subjects.map((subject, index) => {
-                    return renderRowSubject({ subject });
+                term.subjects.map((subject, index) => {
+                    return renderRowSubject({ subject, index });
                 })
             }
-            <RenderRowOverview overview={grade.overview} />
+            <RenderRowOverview overview={term.overview} />
 
         </>
     );

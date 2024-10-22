@@ -1,6 +1,6 @@
-import { Grade } from "../interface";
+import { Term } from "../interface";
 
-const grades: Grade[] = [
+export const terms: Term[] = [
   {
     startRowIndex: 0,
     endRowIndex: 6,
@@ -1635,5 +1635,3 @@ const grades: Grade[] = [
     totalCreditAccumulator: 128,
   },
 ];
-
-export { grades };

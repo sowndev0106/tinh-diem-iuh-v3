@@ -1,21 +1,16 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Collapse from '@mui/material/Collapse';
-import IconButton from '@mui/material/IconButton';
+import { Tooltip } from '@mui/material';
+import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { Grade, RowGrade, Subject } from '../interface';
-import style from './grades-table.module.less';
-import { makeStyles, Tooltip } from '@mui/material';
-import { fixedGrade } from '../helper';
 import RenderTermRow from '../components/render-term-row';
+import { KeySubjectGrade, Term } from '../interface';
+import style from './grades-table.module.sass';
+import { useEffect, useState } from 'react';
+
 const TableHeadCustom = () => {
   return (<TableHead>
     <TableRow>
@@ -63,21 +58,29 @@ const TableHeadCustom = () => {
   )
 }
 
-const GradesTable = ({ grades }: { grades: Grade[] }) => {
+const GradesTable = (data: { terms: Term[] }) => {
+  const [terms, setTerms] = useState<Term[]>(data.terms);
+  useEffect(() => {
+    setTerms(data.terms)
+  }, [data])
+  const onUpdateTerm = (term: Term, index: number) => {
+    // const newTerms = [...terms];
+    // newTerms[index] = term;
+    // setTerms(newTerms);
+  }
+
   return (
     <Paper sx={{ width: '100%' }}>
-      <TableContainer className={style['gradeTable']} sx={{ maxHeight: "100vh" }}>
+      <TableContainer className={style['termTable']} sx={{ maxHeight: "100vh" }}>
         <Table stickyHeader aria-label="sticky table" sx={{ borderCollapse: "collapse" }} >
-
           <TableHeadCustom />
           <TableBody>
             {
-              grades.map((grade, index) => {
-                return <RenderTermRow grade={grade} />
+              terms.map((term, index) => {
+                return <RenderTermRow term={term} onChange={(term) => onUpdateTerm(term, index)} />
               })
             }
           </TableBody>
-
         </Table >
       </TableContainer >
     </Paper >

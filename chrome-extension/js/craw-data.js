@@ -222,11 +222,13 @@ const getOverviewsAndAsignKey = (tr, termId) => {
 let listTermNameUpdate = [];
 (async () => {
   const status = localStorage.getItem("statusToolTinhDiem");
-  let isEnable =
-    status == true || status == "true" || status == null || status == undefined;
 
-  let grades = await crawGrades();
-  console.log(grades);
+  let terms = await crawGrades();
+  chrome.storage.local.set({
+    tinhDiemIUHTerms: terms,
+    status: status,
+    time: new Date().toLocaleString(),
+  });
 })();
 
 // const grade = {

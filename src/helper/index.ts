@@ -1,4 +1,4 @@
-export function convertGrade10(result: number) {
+export function convertOverviewSubjectToGrade10(result: number) {
   if (result >= 9) {
     return {
       finalGrade10: result,
@@ -81,6 +81,6 @@ export function findOverTermLevelByGrade4(grade4: number) {
 }
 
 export const fixedGrade = (grade: number | undefined | null, toFixed = 2) => {
-  if (grade == undefined || isNaN(grade)) return "";
+  if (grade == undefined || isNaN(grade)) return null;
   return Math.round(grade * 10 ** toFixed) / 10 ** toFixed;
 };
