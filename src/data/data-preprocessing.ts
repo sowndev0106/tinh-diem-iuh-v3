@@ -13,7 +13,6 @@ export const dataPreprocessing = (data: Term[]) => {
     });
 
     term.subjects = subjects;
-    console.log({ dataProcess: term });
     return term;
   });
 };

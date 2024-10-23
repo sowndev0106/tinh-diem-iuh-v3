@@ -21,7 +21,6 @@ function App() {
   useEffect(() => {
     try {
       chrome.storage.local.get(["tinhDiemIUHTerms"]).then((result: any) => {
-        console.log(result)
         setTerms(result.tinhDiemIUHTerms);
       });
     } catch (e) {
@@ -29,7 +28,6 @@ function App() {
     }
 
   }, [])
-  console.log({ terms })
   return (
     <ConfigProvider theme={{ token: { colorPrimary: '#00b96b' } }}>
       <div className={styles.app}>

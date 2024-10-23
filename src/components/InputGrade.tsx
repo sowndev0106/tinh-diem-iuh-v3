@@ -9,6 +9,7 @@ export interface IInputGradeProps {
     min?: TypeGrade;
     max?: TypeGrade;
 }
+const LOW_GRADE = 5
 
 const InputGrade = ({ ...props }: IInputGradeProps) => {
     const [error, setError] = useState<string | null>(null);
@@ -34,15 +35,20 @@ const InputGrade = ({ ...props }: IInputGradeProps) => {
             setError(`${props.inputType === "Credit" ? "Tín chỉ thực hành" : "Điểm"} phải >= ${min} và <= ${max}`);
             return;
         }
-
         props.onChange(value);
         setError(null)
     };
 
+    function checkLowGrade(value: any) {
+        if (typeof value === 'number' && props.inputType !== 'Credit' && value < LOW_GRADE) {
+            return true;
+        }
+    }
+
     return (
         <>
             {!error ? <>
-                <TextField className={`${style.inputGrade} `}
+                <TextField className={`${style.inputGrade} ${checkLowGrade(props.value) ? style.lowGrade : ""}`}
                     type='number'
                     value={props.value}
                     onChange={onChange}
@@ -55,7 +61,7 @@ const InputGrade = ({ ...props }: IInputGradeProps) => {
                 <Tooltip title={error}>
                     <TextField className={`${style.inputGrade} ${style.inputError}`}
                         type='number'
-                        defaultValue={props.value}
+                        value={props.value}
                         onChange={onChange}
                         sx={{
                             "& fieldset": { border: 'none' },

@@ -21,7 +21,20 @@ export const calcOverviewSubject = (subject: Subject) => {
     subject.practical5,
   ]);
 
-  if (!subject.endTerm || subject.endTerm < MIN_END_TERM_SUBJECT) {
+  if (subject.endTerm == null) {
+    subject.finalGrade10 = null;
+    subject.finalGrade4 = null;
+    subject.finalGradeChar = "";
+    subject.level = "";
+    subject.description = "";
+    return subject;
+  }
+
+  if (subject.endTerm < MIN_END_TERM_SUBJECT) {
+    subject.finalGrade10 = fixedGrade(subject.endTerm, 1);
+    subject.finalGrade4 = 0;
+    subject.finalGradeChar = "F";
+    subject.description = "Học lại";
     return subject;
   }
 
@@ -51,6 +64,7 @@ export const calcOverviewSubject = (subject: Subject) => {
   subject.finalGrade4 = overviewSubject.finalGrade4;
   subject.finalGradeChar = overviewSubject.finalGradeChar;
   subject.level = overviewSubject.level;
+  subject.description = overviewSubject.description;
 
   return subject;
 };
@@ -104,6 +118,7 @@ export const calculatorOverviewTerm = (term: Term): Overview => {
         subject.finalGrade10 == undefined ||
         isNaN(subject.finalGrade10)
       ) {
+        isMissing = true;
         return overviewTerm;
       }
       overviewTerm.totalCredit += Number(subject.totalCredit);
@@ -124,13 +139,19 @@ export const calculatorOverviewTerm = (term: Term): Overview => {
     overview.avg4 = null;
     overview.avg10 = null;
     overview.levelTerm = "";
+    overview.avgAccumulator4 = null;
+    overview.avgAccumulator10 = null;
+    overview.levelAccumulator = "";
+    overview.totalCreditAccumulator = null;
+    overview.totalCreditPass = null;
+    overview.totalCreditFail = null;
+    overview.totalCreditRegister = null;
     return overview;
   }
 
   overview.avg10 = overviewResult.totalGrade10 / overviewResult.totalCredit;
   overview.avg4 = overviewResult.totalGrade4 / overviewResult.totalCredit;
   overview.levelTerm = findOverTermLevelByGrade4(overview.avg4);
-  console.log(overview);
   return overview;
 };
 
@@ -142,3 +163,48 @@ function findOverTermLevelByGrade4(grade4: number) {
   if (grade4 >= 1) return "Trung bình yếu";
   return "Kém";
 }
+
+export const calcAccumulatorOverview = (
+  term: Term,
+  pervertTerm?: Term
+): Overview => {
+  const overview = { ...term.overview };
+  if (!pervertTerm) {
+    overview.avgAccumulator4 = overview.avg4;
+    overview.avgAccumulator10 = overview.avg10;
+    overview.levelAccumulator = overview.levelTerm;
+    return overview;
+  }
+  if (
+    !overview.avg10 ||
+    !overview.avg4 ||
+    !pervertTerm.overview.avg10 ||
+    !pervertTerm.overview.avg4
+  ) {
+    return overview;
+  }
+
+  const totalCredit =
+    Number(term.totalCredit) + Number(pervertTerm.totalCreditAccumulator || 0);
+
+  const avgAccumulator4 =
+    (overview.avg4 * Number(term.totalCredit) +
+      Number(pervertTerm.overview.avgAccumulator4) *
+        Number(pervertTerm.totalCreditAccumulator || 0)) /
+    totalCredit;
+  const avgAccumulator10 =
+    (overview.avg10 * Number(term.totalCredit) +
+      Number(pervertTerm.overview.avgAccumulator10) *
+        Number(pervertTerm.totalCreditAccumulator || 0)) /
+    totalCredit;
+
+  const levelAccumulator = findOverTermLevelByGrade4(
+    Number(term.overview.avgAccumulator4)
+  );
+
+  overview.avgAccumulator4 = avgAccumulator4;
+  overview.avgAccumulator10 = avgAccumulator10;
+  overview.levelAccumulator = levelAccumulator;
+
+  return overview;
+};

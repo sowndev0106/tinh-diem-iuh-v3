@@ -1,3 +1,5 @@
+import { Description } from "@mui/icons-material";
+
 export function convertOverviewSubjectToGrade10(result: number) {
   if (result >= 9) {
     return {
@@ -5,6 +7,7 @@ export function convertOverviewSubjectToGrade10(result: number) {
       finalGrade4: 4.0,
       finalGradeChar: "A+",
       level: "Xuất sắc",
+      description: "",
     };
   }
   if (result >= 8.5) {
@@ -13,6 +16,7 @@ export function convertOverviewSubjectToGrade10(result: number) {
       finalGrade4: 3.8,
       finalGradeChar: "A",
       level: "Giỏi",
+      description: "",
     };
   }
   if (result >= 8.0) {
@@ -21,6 +25,7 @@ export function convertOverviewSubjectToGrade10(result: number) {
       finalGrade4: 3.5,
       finalGradeChar: "B+",
       level: "Khá",
+      description: "",
     };
   }
   if (result >= 7.0) {
@@ -29,6 +34,7 @@ export function convertOverviewSubjectToGrade10(result: number) {
       finalGrade4: 3.0,
       finalGradeChar: "B",
       level: "Khá",
+      description: "",
     };
   }
   if (result >= 6.0) {
@@ -37,6 +43,7 @@ export function convertOverviewSubjectToGrade10(result: number) {
       finalGrade4: 2.5,
       finalGradeChar: "C+",
       level: "Trung bình",
+      description: "",
     };
   }
   if (result >= 5.5) {
@@ -45,6 +52,7 @@ export function convertOverviewSubjectToGrade10(result: number) {
       finalGrade4: 2.0,
       finalGradeChar: "C",
       level: "Trung Binh",
+      description: "",
     };
   }
   if (result >= 5.0) {
@@ -53,6 +61,7 @@ export function convertOverviewSubjectToGrade10(result: number) {
       finalGrade4: 1.5,
       finalGradeChar: "D+",
       level: "Trung Bình yếu",
+      description: "",
     };
   }
   if (result >= 4.0) {
@@ -61,6 +70,7 @@ export function convertOverviewSubjectToGrade10(result: number) {
       finalGrade4: 1.0,
       finalGradeChar: "D",
       level: "Trung bình yếu",
+      description: "",
     };
   }
   return {
@@ -68,6 +78,7 @@ export function convertOverviewSubjectToGrade10(result: number) {
     finalGrade4: 0,
     finalGradeChar: "F",
     level: "Kém",
+    description: "Học lại",
   };
 }
 
